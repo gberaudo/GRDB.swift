@@ -1,34 +1,18 @@
+#if compiler(>=5.0)
+typealias Result<Value> = Swift.Result<Value, Error>
+#else
 enum Result<Value> {
     case success(Value)
     case failure(Error)
     
-    init(value: () throws -> Value) {
+    init(catching body: () throws -> Value) {
         do {
-            self = try .success(value())
+            self = try .success(body())
         } catch {
             self = .failure(error)
         }
     }
     
-    /// Evaluates the given closure when this `Result` is a success, passing the
-    /// unwrapped value as a parameter.
-    ///
-    /// Use the `map` method with a closure that does not throw. For example:
-    ///
-    ///     let possibleData: Result<Data> = .success(Data())
-    ///     let possibleInt = possibleData.map { $0.count }
-    ///     try print(possibleInt.unwrap())
-    ///     // Prints "0"
-    ///
-    ///     let noData: Result<Data> = .failure(error)
-    ///     let noInt = noData.map { $0.count }
-    ///     try print(noInt.unwrap())
-    ///     // Throws error
-    ///
-    /// - parameter transform: A closure that takes the success value of
-    ///   the instance.
-    /// - returns: A `Result` containing the result of the given closure. If
-    ///   this instance is a failure, returns the same failure.
     func map<T>(_ transform: (Value) -> T) -> Result<T> {
         switch self {
         case .success(let value):
@@ -38,7 +22,7 @@ enum Result<Value> {
         }
     }
     
-    func unwrap() throws -> Value {
+    func get() throws -> Value {
         switch self {
         case .success(let value):
             return value
@@ -47,3 +31,4 @@ enum Result<Value> {
         }
     }
 }
+#endif

@@ -315,7 +315,7 @@ public class Future<Value> {
     }
     
     init(_ result: Result<Value>) {
-        _wait = { try result.unwrap() }
+        _wait = { try result.get() }
     }
     
     /// Blocks the current thread until the value is available, and returns it.
