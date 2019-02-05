@@ -177,7 +177,7 @@ public class Statement {
             code = sqlite3_bind_text(sqliteStatement, index, string, -1, SQLITE_TRANSIENT)
         case .blob(let data):
             code = data.withUnsafeBytes { bytes in
-                sqlite3_bind_blob(sqliteStatement, index, bytes, Int32(data.count), SQLITE_TRANSIENT)
+                sqlite3_bind_blob(sqliteStatement, index, bytes.baseAddress, Int32(data.count), SQLITE_TRANSIENT)
             }
         }
         

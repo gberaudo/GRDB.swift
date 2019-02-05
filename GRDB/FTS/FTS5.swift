@@ -1,4 +1,6 @@
 #if SQLITE_ENABLE_FTS5
+    import Foundation
+
     /// FTS5 lets you define "fts5" virtual tables.
     ///
     ///     // CREATE VIRTUAL TABLE document USING fts5(content)
@@ -183,7 +185,9 @@
             guard let data = try! Data.fetchOne(db, "SELECT fts5()") else {
                 fatalError("FTS5 is not available")
             }
-            return data.withUnsafeBytes { $0.pointee }
+            return data.withUnsafeBytes {
+                $0.bindMemory(to: UnsafePointer<fts5_api>.self).first!
+            }
         }
         
         // Technique given by Jordan Rose:

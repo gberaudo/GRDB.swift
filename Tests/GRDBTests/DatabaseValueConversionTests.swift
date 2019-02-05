@@ -31,7 +31,7 @@ private extension DatabaseValue {
 
 private let emojiString = "'fooéı👨👨🏿🇫🇷🇨🇮'"
 private let emojiData = emojiString.data(using: .utf8)
-private let nonUTF8Data = Data(bytes: [0x80])
+private let nonUTF8Data = Data([0x80])
 private let invalidString = "\u{FFFD}" // decoded from nonUTF8Data
 // Until SPM tests can load resources, disable this test for SPM.
 #if !SWIFT_PACKAGE

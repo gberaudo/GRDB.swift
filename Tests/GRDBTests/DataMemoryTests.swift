@@ -31,7 +31,7 @@ class DataMemoryTests: GRDBTestCase {
                     // This data should be copied:
                     let copiedData: Data = row[0]
                     copiedData.withUnsafeBytes { copiedBytes in
-                        XCTAssertNotEqual(copiedBytes, sqliteBytes)
+                        XCTAssertNotEqual(copiedBytes.baseAddress, sqliteBytes)
                     }
                     XCTAssertEqual(copiedData, data)
                 }
@@ -40,7 +40,7 @@ class DataMemoryTests: GRDBTestCase {
                     // This data should not be copied
                     let nonCopiedData = row.dataNoCopy(atIndex: 0)!
                     nonCopiedData.withUnsafeBytes { nonCopiedBytes in
-                        XCTAssertEqual(nonCopiedBytes, sqliteBytes)
+                        XCTAssertEqual(nonCopiedBytes.baseAddress, sqliteBytes)
                     }
                     XCTAssertEqual(nonCopiedData, data)
                 }
@@ -50,12 +50,12 @@ class DataMemoryTests: GRDBTestCase {
             let dbValue = row.first!.1
             switch dbValue.storage {
             case .blob(let data):
-                data.withUnsafeBytes { (dataBytes: UnsafePointer<UInt8>) -> Void in
+                data.withUnsafeBytes { dataBytes -> Void in
                     do {
                         // This data should not be copied:
                         let nonCopiedData: Data = row[0]
                         nonCopiedData.withUnsafeBytes { nonCopiedBytes in
-                            XCTAssertEqual(nonCopiedBytes, dataBytes)
+                            XCTAssertEqual(nonCopiedBytes.baseAddress, dataBytes.baseAddress)
                         }
                         XCTAssertEqual(nonCopiedData, data)
                     }
@@ -64,7 +64,7 @@ class DataMemoryTests: GRDBTestCase {
                         // This data should not be copied:
                         let nonCopiedData = row.dataNoCopy(atIndex: 0)!
                         nonCopiedData.withUnsafeBytes { nonCopiedBytes in
-                            XCTAssertEqual(nonCopiedBytes, dataBytes)
+                            XCTAssertEqual(nonCopiedBytes.baseAddress, dataBytes.baseAddress)
                         }
                         XCTAssertEqual(nonCopiedData, data)
                     }

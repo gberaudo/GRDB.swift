@@ -54,7 +54,7 @@ extension UUID: DatabaseValueConvertible {
         switch dbValue.storage {
         case .blob(let data) where data.count == 16:
             return data.withUnsafeBytes {
-                UUID(uuid: $0.pointee)
+                return UUID(uuid: $0.bindMemory(to: uuid_t.self).first!)
             }
         case .string(let string):
             return UUID(uuidString: string)

@@ -295,7 +295,7 @@ public final class DatabaseFunction: Hashable {
             sqlite3_result_text(sqliteContext, string, -1, SQLITE_TRANSIENT)
         case .blob(let data):
             data.withUnsafeBytes { bytes in
-                sqlite3_result_blob(sqliteContext, bytes, Int32(data.count), SQLITE_TRANSIENT)
+                sqlite3_result_blob(sqliteContext, bytes.baseAddress, Int32(data.count), SQLITE_TRANSIENT)
             }
         }
     }
