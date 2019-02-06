@@ -296,11 +296,11 @@ public final class DatabaseFunction: Hashable {
         case .blob(let data):
             #if compiler(>=5.0)
             data.withUnsafeBytes {
-                sqlite3_result_blob(sqliteContext, bytes.baseAddress, Int32(data.count), SQLITE_TRANSIENT)
+                sqlite3_result_blob(sqliteContext, $0.baseAddress, Int32($0.count), SQLITE_TRANSIENT)
             }
             #else
-            data.withUnsafeBytes { bytes in
-                sqlite3_result_blob(sqliteContext, bytes, Int32(data.count), SQLITE_TRANSIENT)
+            data.withUnsafeBytes {
+                sqlite3_result_blob(sqliteContext, $0, Int32(data.count), SQLITE_TRANSIENT)
             }
             #endif
         }

@@ -190,7 +190,9 @@
                 $0.bindMemory(to: UnsafePointer<fts5_api>.self).first!
             }
             #else
-            return data.withUnsafeBytes { $0.pointee }
+            return data.withUnsafeBytes {
+                $0.pointee
+            }
             #endif
         }
         
