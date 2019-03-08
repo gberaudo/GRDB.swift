@@ -98,8 +98,8 @@ extension DatabaseQueue {
         center.addObserver(self, selector: #selector(DatabaseQueue.applicationDidReceiveMemoryWarning(_:)), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
         center.addObserver(self, selector: #selector(DatabaseQueue.applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
         #else
-        center.addObserver(self, selector: #selector(DatabaseQueue.applicationDidReceiveMemoryWarning(_:)), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
-        center.addObserver(self, selector: #selector(DatabaseQueue.applicationDidEnterBackground(_:)), name: .UIApplicationDidEnterBackground, object: nil)
+        center.addObserver(self, selector: #selector(DatabaseQueue.applicationDidReceiveMemoryWarning(_:)), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
+        center.addObserver(self, selector: #selector(DatabaseQueue.applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
         #endif
     }
     
@@ -112,7 +112,7 @@ extension DatabaseQueue {
         #if swift(>=4.2)
         let taskIsInvalid = task == UIBackgroundTaskIdentifier.invalid
         #else
-        let taskIsInvalid = task == UIBackgroundTaskInvalid
+        let taskIsInvalid = task == UIBackgroundTaskIdentifier.invalid
         #endif
         if taskIsInvalid {
             // Perform releaseMemory() synchronously.

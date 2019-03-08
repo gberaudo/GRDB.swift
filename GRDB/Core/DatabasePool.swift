@@ -181,8 +181,8 @@ extension DatabasePool {
         center.addObserver(self, selector: #selector(DatabasePool.applicationDidReceiveMemoryWarning(_:)), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
         center.addObserver(self, selector: #selector(DatabasePool.applicationDidEnterBackground(_:)), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
         #else
-        center.addObserver(self, selector: #selector(DatabasePool.applicationDidReceiveMemoryWarning(_:)), name: .UIApplicationDidReceiveMemoryWarning, object: nil)
-        center.addObserver(self, selector: #selector(DatabasePool.applicationDidEnterBackground(_:)), name: .UIApplicationDidEnterBackground, object: nil)
+        center.addObserver(self, selector: #selector(DatabasePool.applicationDidReceiveMemoryWarning(_:)), name: UIApplication.didReceiveMemoryWarningNotification, object: nil)
+        center.addObserver(self, selector: #selector(DatabasePool.applicationDidEnterBackground(_:)), name: UIApplication.didEnterBackgroundNotification, object: nil)
         #endif
     }
     
@@ -195,7 +195,7 @@ extension DatabasePool {
         #if swift(>=4.2)
         let taskIsInvalid = task == UIBackgroundTaskIdentifier.invalid
         #else
-        let taskIsInvalid = task == UIBackgroundTaskInvalid
+        let taskIsInvalid = task == UIBackgroundTaskIdentifier.invalid
         #endif
         if taskIsInvalid {
             // Perform releaseMemory() synchronously.
